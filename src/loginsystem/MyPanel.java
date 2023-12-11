@@ -2,8 +2,15 @@ package loginsystem;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -38,5 +45,57 @@ public class MyPanel extends JPanel{
     register_button.setBackground(new Color(51,255,51));
     this.add(register_button);
 
+    register_button.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e){
+        registerButtonAction();
+      }
+    });
+
+  }
+
+  public void registerButtonAction(){
+
+    String username = textField1.getText();
+    String password = textField2.getText();
+    
+  if(checkUsername(username)){
+
+    try(BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true))){
+      writer.write("username: " + username + "\n");
+      writer.write("password: " + password + "\n\n");
+      JOptionPane.showMessageDialog(null,"Successfully Registered");
+    }
+    catch(IOException ex){
+      System.out.println("Something went wrong. " + ex.getMessage());
+      JOptionPane.showMessageDialog(null,"Sorry. Something went wrong.");
+    }
+  }
+  else{
+    JOptionPane.showMessageDialog(null, "Username already exists. Please enter different username.");
+  }
+ }
+
+  public boolean checkUsername(String newUsername){
+
+    try(BufferedReader reader = new BufferedReader(new FileReader(("users.txt")))){
+
+      String line;
+
+      while((line = reader.readLine()) != null){
+        if(line.startsWith("username: ")){
+          
+          String existingUsername = line.substring("username: ".length());
+          
+          if(existingUsername.equals(newUsername)){
+            return false;
+          }
+        }
+      }
+    }
+    catch(IOException ex){
+      System.out.println("Error reading file: " + ex.getMessage());
+    }
+    return true;
   }
 }
