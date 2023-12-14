@@ -2,11 +2,10 @@ package loginsystem;
 
 import javax.swing.JFrame;
 
-public class MyFrame extends JFrame{
+public class LoginFrame extends JFrame{
   
-  MyFrame(){
-    this.add(new MyPanel());
-    //this.add(new MyPanel());
+  LoginFrame(){
+    this.add(new LoginPanel());
     this.setTitle("Registration and Login");
     this.setSize(500,600);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);

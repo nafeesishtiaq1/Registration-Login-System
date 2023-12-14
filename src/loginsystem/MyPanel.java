@@ -65,6 +65,7 @@ public class MyPanel extends JPanel{
       writer.write("username: " + username + "\n");
       writer.write("password: " + password + "\n\n");
       JOptionPane.showMessageDialog(null,"Successfully Registered");
+      new LoginFrame();
     }
     catch(IOException ex){
       System.out.println("Something went wrong. " + ex.getMessage());
@@ -84,7 +85,7 @@ public class MyPanel extends JPanel{
 
       while((line = reader.readLine()) != null){
         if(line.startsWith("username: ")){
-          
+
           String existingUsername = line.substring("username: ".length());
           
           if(existingUsername.equals(newUsername)){
